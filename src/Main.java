@@ -1,8 +1,9 @@
 import utils.Contato;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.util.List;
+
+import java.io.IOException;
+import java.util.*;
+import utils.File;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -37,6 +38,7 @@ public class Main {
 
     public static void handleUserInput(List<Contato> agenda,Scanner scanner){
         int option = 0;
+        File file = new File();
         while (option != 4){
             try{
                 printMenu(agenda);
@@ -48,28 +50,33 @@ public class Main {
                 else{
                     switch (option){
                         case 1:
-                            Contato novo = Functions.adicionarContato(scanner);
+                            Contato novo = ContatosFunctions.adicionarContato(scanner,agenda);
                             agenda.add(novo);
+                            file.writeFile(agenda);
                             break;
                         case 2:
                             System.out.print("Entre o id para remover: ");
                             long idParaRemover = scanner.nextLong();
                             scanner.nextLine(); // consumir newline
-                            Functions.deletarContato(agenda,idParaRemover);
+                            ContatosFunctions.deletarContato(agenda,idParaRemover);
+                            file.writeFile(agenda);
                             break;
                         case 3:
                             System.out.print("Entre o id para editar: ");
                             long idParaEditar = scanner.nextLong();
                             scanner.nextLine(); // consumir newline
-                            Functions.editarContato(scanner,idParaEditar,agenda);
+                            ContatosFunctions.editarContato(scanner,idParaEditar,agenda);
+                            file.writeFile(agenda);
                             break;
                         default:
                             break;
                     }
                 }
-            } catch (InputMismatchException e){
+            } catch (NoSuchElementException e){
                 System.out.println("Entrada Inválida!");
                 scanner.nextLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         System.out.println("Saindo!");
