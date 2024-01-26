@@ -14,23 +14,13 @@ public class Telefone {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getDdd() {
         return ddd;
     }
 
-    public void setDdd(String ddd) {
-        this.ddd = ddd;
-    }
 
     public Long getNumero() {
         return numero;
     }
 
-    public void setNumero(Long numero) {
-        this.numero = numero;
-    }
 }
